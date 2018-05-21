@@ -21,22 +21,21 @@ public class Retirement {
 		this.dRequiredIncome = dRequiredIncome;
 		this.dMonthlySSI = dMonthlySSI;
 	}
-
 	public double MonthlySavings() {
-
-		//TODO: Calculate AmountToSave
-		double pmt = 0; // <-- this should be fixed to calculate the real pmt
+		//DONE
+		double pmt = 0;
+		double pv = PV(dAnnualReturnRetired / 12, iYearsRetired * 12, dRequiredIncome - dMonthlySSI, 0, false);
+		pmt = PMT(dAnnualReturnWorking / 12.0, iYearsToWork * 12.0, 0.0, pv, false);
+		pmt = Math.round(pmt * 100.0) / 100.0;
 		return pmt;
 	}
-
 	public double TotalAmountToSave() {
-		
-		//TODO: Calculate the Total Amount Requried to save
+		//DONE
 		double pv = 0;
-		//	Hint: Here's how to round a number: pv = Math.round(pv * 100.0) / 100.0;
+		pv = PV(dAnnualReturnRetired / 12, iYearsRetired * 12, dRequiredIncome - dMonthlySSI, 0, false);
+		pv = Math.round(pv * 100.0) / 100.0;
 		return pv;
 	}
-
 	public static double PMT(double r, double n, double p, double f, boolean t) {
 		//	r = Rate
 		//	n = number of payments
@@ -45,7 +44,6 @@ public class Retirement {
 		//	t = boolean... when interest is calculated... we're going to use FALSE
 		return FinanceLib.pmt(r, n, p, f, t);
 	}
-
 	public static double PV(double r, double n, double y, double f, boolean t) {
 		//	r = Rate.  7% would be expressed as...  0.07 / 12
 		//	n = Number of payments.  Five years would be expressed as...  5 * 12...  or 60
@@ -54,51 +52,39 @@ public class Retirement {
 		//	t = boolean... when interest is calculated... we're going to use FALSE
 		return FinanceLib.pv(r, n, y, f, t);
 	}
-
 	public int getiYearsToWork() {
 		return iYearsToWork;
 	}
-
 	public void setiYearsToWork(int iYearsToWork) {
 		this.iYearsToWork = iYearsToWork;
 	}
-
 	public double getdAnnualReturnWorking() {
 		return dAnnualReturnWorking;
 	}
-
 	public void setdAnnualReturnWorking(double dAnnualReturnWorking) {
 		this.dAnnualReturnWorking = dAnnualReturnWorking;
 	}
-
 	public int getiYearsRetired() {
 		return iYearsRetired;
 	}
-
 	public void setiYearsRetired(int iYearsRetired) {
 		this.iYearsRetired = iYearsRetired;
 	}
-
 	public double getdAnnualReturnRetired() {
 		return dAnnualReturnRetired;
 	}
-
 	public void setdAnnualReturnRetired(double dAnnualReturnRetired) {
 		this.dAnnualReturnRetired = dAnnualReturnRetired;
 	}
-
 	public double getdRequiredIncome() {
 		return dRequiredIncome;
 	}
-
 	public void setdRequiredIncome(double dRequiredIncome) {
 		this.dRequiredIncome = dRequiredIncome;
 	}
-
 	public double getdMonthlySSI() {
 		return dMonthlySSI;
 	}
-
 	public void setdMonthlySSI(double dMonthlySSI) {
 		this.dMonthlySSI = dMonthlySSI;
 	}
