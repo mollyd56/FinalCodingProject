@@ -59,20 +59,14 @@ public class RetirementController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
-		// Adding an entry in the hashmap for each TextField control I want to validate
-		// with a regular expression
-		// "\\d*?" - means any decimal number
-		// "\\d*(\\.\\d*)?" means any decimal, then optionally a period (.), then
-		// decmial
+		// DONE!
+		
 		hmTextFieldRegEx.put(txtYearsToWork, "\\d*?");
 		hmTextFieldRegEx.put(txtAnnualReturnWorking, "\\d*(\\.\\d*)?");
-
-		// Check out these pages (how to validate controls):
-		// https://stackoverflow.com/questions/30935279/javafx-input-validation-textfield
-		// https://stackoverflow.com/questions/40485521/javafx-textfield-validation-decimal-value?rq=1
-		// https://stackoverflow.com/questions/8381374/how-to-implement-a-numberfield-in-javafx-2-0
-		// There are some examples on how to validate / check format
+		hmTextFieldRegEx.put(txtYearsRetired, "\\d*?");
+		hmTextFieldRegEx.put(txtAnnualReturnRetired, "(\\.\\d*)?");
+		hmTextFieldRegEx.put(txtRequiredIncome, "\\d*?");
+		hmTextFieldRegEx.put(txtMonthlySSI, "\\d*(\\.\\d*)?");
 
 		Iterator it = hmTextFieldRegEx.entrySet().iterator();
 		while (it.hasNext()) {
@@ -95,41 +89,54 @@ public class RetirementController implements Initializable {
 				}
 			});
 		}
-
-		//
-		// TODO: Validate Working Annual Return %, accept only numbers and decimals
-		// TODO: Validate Years retired, accepted only decimals
-		// TODO: Validate Retired Annual Return %, accept only numbers and deciamls
-		// TODO: Validate Required Income, accept only decimals
-		// TODO: Validate Monthly SSI, accept only decimals
 	}
 
 	@FXML
 	public void btnClear(ActionEvent event) {
 		System.out.println("Clear pressed");
 
-		// disable read-only controls
 		txtSaveEachMonth.setDisable(true);
 		txtWhatYouNeedToSave.setDisable(true);
 
-		// Clear, enable txtYearsToWork
 		txtYearsToWork.clear();
 		txtYearsToWork.setDisable(false);
 
-		// TODO: Clear, enable the rest of the input controls. Hint! You already have a
-		// HashMap of all the input controls....!!!!
+		// DONE!
+		
+		Iterator it = hmTextFieldRegEx.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry pair = (Map.Entry) it.next();
+			TextField txtField = (TextField) pair.getKey();
+			txtField.clear();
+			txtField.setDisable(false);
+		}
 	}
 
 	@FXML
 	public void btnCalculate() {
+		// DONE!
+		
+		String ARW = txtAnnualReturnWorking.getText();
+		double ARWvalue = Double.parseDouble(ARW);
+		String YTW = txtYearsToWork.getText();
+		int YTWvalue = Integer.parseInt(YTW);
+		String RI = txtRequiredIncome.getText();
+		int RIvalue = Integer.parseInt(RI);
+		String MSSI = txtMonthlySSI.getText();
+		int MSSIvalue = Integer.parseInt(MSSI);
+		String YR = txtYearsRetired.getText();
+		int YRvalue = Integer.parseInt(YR);
+		String ARR = txtAnnualReturnRetired.getText();
+		double ARRvalue = Double.parseDouble(ARR);		
+		Retirement r = new Retirement(YTWvalue, ARWvalue, YRvalue, ARRvalue, RIvalue, MSSIvalue);
 
 		System.out.println("calculating");
 
 		txtSaveEachMonth.setDisable(false);
 		txtWhatYouNeedToSave.setDisable(false);
+		
+		txtWhatYouNeedToSave.setText("" + r.TotalAmountToSave());
+		txtSaveEachMonth.setText("" + r.MonthlySavings());
 
-		// TODO: Calculate txtWhatYouNeedToSave value...
-		// TODO: Then calculate txtSaveEachMonth, using amount from txtWhatYouNeedToSave
-		// as input
 	}
 }
